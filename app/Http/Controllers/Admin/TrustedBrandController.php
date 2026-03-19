@@ -52,14 +52,19 @@ class TrustedBrandController extends Controller
 
     public function update(Request $request, TrustedBrand $trustedBrand)
     {
-        $data = $request->validate([
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
-            'logo' => ['nullable', 'image', 'max:4096'],
             'website_url' => ['nullable', 'url', 'max:255'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
             'remove_logo' => ['nullable', 'boolean'],
-        ]);
+        ];
+
+        if ($request->hasFile('logo')) {
+            $rules['logo'] = ['image', 'max:4096'];
+        }
+
+        $data = $request->validate($rules);
 
         if ((bool) ($data['remove_logo'] ?? false) && $trustedBrand->logo) {
             Storage::disk('public')->delete($trustedBrand->logo);

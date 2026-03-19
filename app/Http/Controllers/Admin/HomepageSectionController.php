@@ -24,14 +24,22 @@ class HomepageSectionController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $rules = [
             'key' => ['required', 'string', 'max:255', Rule::unique('homepage_sections', 'key')],
             'title' => ['nullable', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string', 'max:255'],
             'content' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:4096'],
-            'video' => ['nullable', 'file', 'mimetypes:video/mp4,video/webm,video/ogg', 'max:51200'],
-        ]);
+        ];
+
+        if ($request->hasFile('image')) {
+            $rules['image'] = ['image', 'max:4096'];
+        }
+
+        if ($request->hasFile('video')) {
+            $rules['video'] = ['file', 'mimetypes:video/mp4,video/webm,video/ogg', 'max:51200'];
+        }
+
+        $data = $request->validate($rules);
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('homepage', 'public');
@@ -55,16 +63,24 @@ class HomepageSectionController extends Controller
 
     public function update(Request $request, HomepageSection $homepageSection)
     {
-        $data = $request->validate([
+        $rules = [
             'key' => ['required', 'string', 'max:255', Rule::unique('homepage_sections', 'key')->ignore($homepageSection->id)],
             'title' => ['nullable', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string', 'max:255'],
             'content' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:4096'],
-            'video' => ['nullable', 'file', 'mimetypes:video/mp4,video/webm,video/ogg', 'max:51200'],
             'remove_image' => ['nullable', 'boolean'],
             'remove_video' => ['nullable', 'boolean'],
-        ]);
+        ];
+
+        if ($request->hasFile('image')) {
+            $rules['image'] = ['image', 'max:4096'];
+        }
+
+        if ($request->hasFile('video')) {
+            $rules['video'] = ['file', 'mimetypes:video/mp4,video/webm,video/ogg', 'max:51200'];
+        }
+
+        $data = $request->validate($rules);
 
         if ((bool) ($data['remove_image'] ?? false) && $homepageSection->image) {
             Storage::disk('public')->delete($homepageSection->image);

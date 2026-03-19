@@ -10,7 +10,7 @@
 
             <div class="rounded border border-slate-200 p-4">
                 <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-600">Social Profile Keys</h2>
-                <p class="text-sm text-slate-600">Use keys like: <code>facebook_url</code>, <code>instagram_url</code>, <code>linkedin_url</code>, <code>youtube_url</code>, <code>tiktok_url</code>.</p>
+                <p class="text-sm text-slate-600">Use keys like: <code>company_phone</code>, <code>company_email</code>, <code>company_address</code>, <code>facebook_url</code>, <code>instagram_url</code>, <code>linkedin_url</code>, <code>youtube_url</code>, <code>tiktok_url</code>.</p>
             </div>
 
             <div class="space-y-4">

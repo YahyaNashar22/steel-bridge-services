@@ -1,11 +1,32 @@
 @extends('website.layout', ['metaTitle' => ($sections['hero']->title ?? config('app.name')), 'settings' => $settings])
 
 @php
+    $heroChips = collect([
+        $sections['hero_chip_1']->title ?? 'Nationwide Coverage',
+        $sections['hero_chip_2']->title ?? 'Rapid Response Teams',
+        $sections['hero_chip_3']->title ?? 'Compliance-Ready Workflows',
+    ])->filter(fn ($chip) => filled($chip))->values();
+
+    $heroHighlights = collect([
+        [
+            'kicker' => $sections['hero_highlight_1']->subtitle ?? 'Service Speed',
+            'value' => $sections['hero_highlight_1']->title ?? '2h',
+            'description' => $sections['hero_highlight_1']->content ?? 'Priority dispatch response target.',
+        ],
+        [
+            'kicker' => $sections['hero_highlight_2']->subtitle ?? 'Client Retention',
+            'value' => $sections['hero_highlight_2']->title ?? '92%',
+            'description' => $sections['hero_highlight_2']->content ?? 'Partnerships renewed year-on-year.',
+        ],
+    ])->filter(fn ($card) => filled($card['kicker']) || filled($card['value']) || filled($card['description']))->values();
+
+    $showTrustedBrands = filter_var($sections['trusted_brands']->content ?? false, FILTER_VALIDATE_BOOLEAN);
+
     $stats = [
         ['value' => $sections['stats_1']->title ?? '24/7', 'label' => $sections['stats_1']->subtitle ?? 'Support Availability'],
         ['value' => $sections['stats_2']->title ?? '98%', 'label' => $sections['stats_2']->subtitle ?? 'First-Visit Resolution'],
         ['value' => $sections['stats_3']->title ?? '450+', 'label' => $sections['stats_3']->subtitle ?? 'Facilities Supported'],
-        ['value' => $sections['stats_4']->title ?? '12+', 'label' => $sections['stats_4']->subtitle ?? 'Years Experience'],
+        ['value' => $sections['stats_4']->title ?? '5+', 'label' => $sections['stats_4']->subtitle ?? 'Years Experience'],
     ];
 
     $industries = collect(preg_split('/\r\n|\r|\n/', (string) ($sections['industries']->content ?? 'Healthcare
@@ -17,6 +38,21 @@ Education')))
         ->map(fn ($line) => trim($line))
         ->filter()
         ->values();
+
+    $processSteps = collect([
+        [
+            'eyebrow' => $sections['process_step_1']->title ?? '01 Diagnose',
+            'description' => $sections['process_step_1']->content ?? 'On-site or remote assessment with scope clarity and risk mapping.',
+        ],
+        [
+            'eyebrow' => $sections['process_step_2']->title ?? '02 Deliver',
+            'description' => $sections['process_step_2']->content ?? 'Planned execution with live progress updates and quality checks.',
+        ],
+        [
+            'eyebrow' => $sections['process_step_3']->title ?? '03 Optimize',
+            'description' => $sections['process_step_3']->content ?? 'Preventive recommendations and performance reporting.',
+        ],
+    ])->filter(fn ($step) => filled($step['eyebrow']) || filled($step['description']))->values();
 
     $testimonials = collect(preg_split('/\r\n|\r|\n/', (string) ($sections['testimonials']->content ?? '"We reduced downtime massively after switching providers." | Operations Director
 "Fast response, clear communication, and very strong execution." | Facilities Manager
@@ -63,42 +99,43 @@ Education')))
 
         <div class="nfd-container grid gap-10 lg:grid-cols-2 lg:items-center">
             <div class="scroll-reveal" data-animate="left">
-                <p class="nfd-kicker animate-reveal">Steel Bridge Facilities</p>
+                <p class="nfd-kicker animate-reveal">{{ $sections['hero_kicker']->title ?? 'Steel Bridge Facilities' }}</p>
                 <h1 class="animate-reveal animate-delay-1 mt-4 text-4xl font-extrabold leading-tight md:text-6xl">
-                    {{ $sections['hero']->title ?? 'Powering High-Performance Facilities With Precision Support' }}
+                    {{ $sections['hero']->title ?? 'Complete Facilities Services' }}
                 </h1>
                 <p class="animate-reveal animate-delay-2 mt-6 max-w-2xl text-lg text-slate-300">
-                    {{ $sections['hero']->content ?? 'From planned maintenance to emergency response and specialist project delivery, we keep your operations moving with speed, control, and consistency.' }}
+                    {{ $sections['hero']->content ?? 'Steel Bridge delivers professional facility support, repairs, and maintenance for commercial and industrial spaces.' }}
                 </p>
                 <div class="animate-reveal animate-delay-3 mt-8 flex flex-wrap gap-3">
-                    <a href="{{ route('services.index') }}" class="nfd-btn-primary">Explore Services</a>
-                    <a href="#request-form" class="nfd-btn-ghost">Request a Callback</a>
+                    <a href="{{ $sections['hero_primary_cta']->content ?? route('services.index') }}" class="nfd-btn-primary">{{ $sections['hero_primary_cta']->title ?? 'Explore Services' }}</a>
+                    <a href="{{ $sections['hero_secondary_cta']->content ?? '#request-form' }}" class="nfd-btn-ghost">{{ $sections['hero_secondary_cta']->title ?? 'Request a Callback' }}</a>
                 </div>
-                <div class="animate-reveal animate-delay-4 mt-8 flex flex-wrap gap-2">
-                    <span class="nfd-pill">Nationwide Coverage</span>
-                    <span class="nfd-pill">Rapid Response Teams</span>
-                    <span class="nfd-pill">Compliance-Ready Workflows</span>
-                </div>
+                @if ($heroChips->isNotEmpty())
+                    <div class="animate-reveal animate-delay-4 mt-8 flex flex-wrap gap-2">
+                        @foreach ($heroChips as $chip)
+                            <span class="nfd-pill">{{ $chip }}</span>
+                        @endforeach
+                    </div>
+                @endif
             </div>
 
             <div class="grid gap-4 scroll-reveal" data-animate="right">
                 <article class="nfd-glow-card animate-reveal animate-delay-2">
-                    <p class="nfd-kicker">{{ $sections['about']->subtitle ?? 'Who We Are' }}</p>
-                    <h2 class="mt-3 text-2xl font-bold">{{ $sections['about']->title ?? 'A strategic partner for complete facilities support' }}</h2>
-                    <p class="mt-4 whitespace-pre-line text-slate-300">{{ $sections['about']->content ?? 'Our operations team delivers planned, reactive, and compliance-focused services for facilities that cannot afford downtime.' }}</p>
+                    <p class="nfd-kicker">{{ $sections['about']->subtitle ?? 'Experienced Operations Team' }}</p>
+                    <h2 class="mt-3 text-2xl font-bold">{{ $sections['about']->title ?? 'About Steel Bridge' }}</h2>
+                    <p class="mt-4 whitespace-pre-line text-slate-300">{{ $sections['about']->content ?? 'Our specialists provide reliable service delivery with transparent communication and measurable performance.' }}</p>
                 </article>
-                <div class="grid gap-4 sm:grid-cols-2">
-                    <article class="nfd-card float-slow">
-                        <p class="text-sm uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">Service Speed</p>
-                        <p class="mt-2 text-4xl font-black">2h</p>
-                        <p class="mt-1 text-sm text-slate-300">Priority dispatch response target.</p>
-                    </article>
-                    <article class="nfd-card float-slower">
-                        <p class="text-sm uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">Client Retention</p>
-                        <p class="mt-2 text-4xl font-black">92%</p>
-                        <p class="mt-1 text-sm text-slate-300">Partnerships renewed year-on-year.</p>
-                    </article>
-                </div>
+                @if ($heroHighlights->isNotEmpty())
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        @foreach ($heroHighlights as $index => $card)
+                            <article class="nfd-card {{ $index === 0 ? 'float-slow' : 'float-slower' }}">
+                                <p class="text-sm uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">{{ $card['kicker'] }}</p>
+                                <p class="mt-2 text-4xl font-black">{{ $card['value'] }}</p>
+                                <p class="mt-1 text-sm text-slate-300">{{ $card['description'] }}</p>
+                            </article>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
     </section>
@@ -114,53 +151,61 @@ Education')))
         </div>
     </section>
 
-    <section class="py-10">
-        <div class="nfd-container">
-            <p class="nfd-kicker text-center">Trusted By</p>
-            <div class="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-3 py-4">
-                @if ($trustedBrands->isNotEmpty())
-                    <div class="logo-track flex items-center scroll-reveal" data-animate="zoom">
-                        @for ($repeatIndex = 0; $repeatIndex < 2; $repeatIndex++)
-                            @php $isClone = $repeatIndex === 1; @endphp
-                            <div class="logo-group" @if($isClone) aria-hidden="true" @endif>
-                                @foreach ($trustedBrands as $brand)
-                                    <div class="flex min-w-[180px] items-center justify-center rounded-xl border border-white/10 bg-white px-6 py-4">
-                                        @if ($brand->website_url)
-                                            <a href="{{ $brand->website_url }}" target="_blank" rel="noopener noreferrer">
+    @if ($showTrustedBrands)
+        <section class="py-10">
+            <div class="nfd-container">
+                <p class="nfd-kicker text-center">{{ $sections['trusted_brands']->title ?? 'Trusted By' }}</p>
+                <div class="mt-6 overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-3 py-4">
+                    @if ($trustedBrands->isNotEmpty())
+                        <div class="logo-track flex items-center scroll-reveal" data-animate="zoom">
+                            @for ($repeatIndex = 0; $repeatIndex < 2; $repeatIndex++)
+                                @php $isClone = $repeatIndex === 1; @endphp
+                                <div class="logo-group" @if($isClone) aria-hidden="true" @endif>
+                                    @foreach ($trustedBrands as $brand)
+                                        <div class="flex min-w-[180px] items-center justify-center rounded-xl border border-white/10 bg-white px-6 py-4">
+                                            @if ($brand->website_url)
+                                                <a href="{{ $brand->website_url }}" target="_blank" rel="noopener noreferrer">
+                                                    <img src="{{ asset('storage/'.$brand->logo) }}" alt="{{ $brand->name }}" class="h-10 w-auto object-contain">
+                                                </a>
+                                            @else
                                                 <img src="{{ asset('storage/'.$brand->logo) }}" alt="{{ $brand->name }}" class="h-10 w-auto object-contain">
-                                            </a>
-                                        @else
-                                            <img src="{{ asset('storage/'.$brand->logo) }}" alt="{{ $brand->name }}" class="h-10 w-auto object-contain">
-                                        @endif
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endfor
-                    </div>
-                @else
-                    <p class="text-center text-sm text-slate-300">No trusted logos added yet.</p>
-                @endif
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endfor
+                        </div>
+                    @else
+                        <p class="text-center text-sm text-slate-300">No trusted logos added yet.</p>
+                    @endif
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
+
+    @php
+        $valueCards = collect([
+            ['section' => $sections['why_us'] ?? null, 'classes' => 'nfd-glow-card animate-reveal scroll-reveal', 'animate' => 'left'],
+            ['section' => $sections['value_one'] ?? null, 'classes' => 'nfd-card animate-reveal animate-delay-1 scroll-reveal', 'animate' => 'zoom'],
+            ['section' => $sections['value_two'] ?? null, 'classes' => 'nfd-card animate-reveal animate-delay-2 scroll-reveal', 'animate' => 'right'],
+        ]);
+    @endphp
 
     <section class="py-10">
         <div class="nfd-container grid gap-5 md:grid-cols-3">
-            <article class="nfd-glow-card animate-reveal scroll-reveal" data-animate="left">
-                <p class="nfd-kicker">{{ $sections['why_us']->subtitle ?? 'The Difference' }}</p>
-                <h3 class="mt-2 text-xl font-bold">{{ $sections['why_us']->title ?? 'Why clients choose our team' }}</h3>
-                <p class="mt-3 text-slate-300">{{ $sections['why_us']->content ?? 'Strong governance, rapid mobilization, transparent communication, and measurable service standards.' }}</p>
-            </article>
-            <article class="nfd-card animate-reveal animate-delay-1 scroll-reveal" data-animate="zoom">
-                <p class="nfd-kicker">Core Value</p>
-                <h3 class="mt-2 text-xl font-bold">{{ $sections['value_one']->title ?? 'Customer Centric' }}</h3>
-                <p class="mt-3 text-slate-300">{{ $sections['value_one']->content ?? 'Every workflow is designed around client outcomes, not internal convenience.' }}</p>
-            </article>
-            <article class="nfd-card animate-reveal animate-delay-2 scroll-reveal" data-animate="right">
-                <p class="nfd-kicker">Core Value</p>
-                <h3 class="mt-2 text-xl font-bold">{{ $sections['value_two']->title ?? 'Operational Excellence' }}</h3>
-                <p class="mt-3 text-slate-300">{{ $sections['value_two']->content ?? 'Consistency, safety, and quality controls are embedded in each service operation.' }}</p>
-            </article>
+            @foreach ($valueCards as $card)
+                @php
+                    $section = $card['section'];
+                    $backgroundStyle = !empty($section?->image)
+                        ? "background-image: linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.92)), url('".asset('storage/'.$section->image)."'); background-size: cover; background-position: center;"
+                        : '';
+                @endphp
+                <article class="{{ $card['classes'] }}" data-animate="{{ $card['animate'] }}" @if($backgroundStyle) style="{{ $backgroundStyle }}" @endif>
+                    <p class="nfd-kicker">{{ $section?->subtitle ?? 'Core Value' }}</p>
+                    <h3 class="mt-2 text-xl font-bold">{{ $section?->title ?? 'Section Title' }}</h3>
+                    <p class="mt-3 text-slate-300">{{ $section?->content ?? 'Section description.' }}</p>
+                </article>
+            @endforeach
         </div>
     </section>
 
@@ -262,11 +307,20 @@ Education')))
 
             <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
                 @forelse ($services as $service)
-                    <article class="nfd-card group transition hover:-translate-y-1 hover:border-[var(--nfd-accent)] scroll-reveal" data-animate="zoom">
+                    @php
+                        $servicePreview = $service->images->first()?->path ?: $service->featured_image;
+                    @endphp
+                    <article class="nfd-card group relative overflow-hidden pr-28 transition hover:-translate-y-1 hover:border-[var(--nfd-accent)] scroll-reveal" data-animate="zoom">
                         <p class="text-xs uppercase tracking-[0.22em] text-[var(--nfd-accent-soft)]">{{ $service->category?->name }}</p>
                         <h3 class="mt-2 text-xl font-semibold">{{ $service->title }}</h3>
-                        <p class="mt-3 text-sm text-slate-300">{{ $service->short_description }}</p>
+                        <p class="mt-3 max-w-[22rem] text-sm text-slate-300">{{ $service->short_description }}</p>
                         <a href="{{ route('services.show', $service->slug) }}" class="mt-5 inline-flex text-sm font-semibold text-[var(--nfd-accent-soft)]">Learn More</a>
+
+                        @if ($servicePreview)
+                            <div class="pointer-events-none absolute bottom-4 right-4 h-20 w-20 overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-xl md:h-24 md:w-24">
+                                <img src="{{ asset('storage/'.$servicePreview) }}" alt="{{ $service->title }} preview" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                            </div>
+                        @endif
                     </article>
                 @empty
                     <p class="text-slate-400">No published services yet.</p>
@@ -326,27 +380,21 @@ Education')))
     <section class="py-14">
         <div class="nfd-container grid gap-6 lg:grid-cols-2">
             <article class="nfd-glow-card scroll-reveal" data-animate="left">
-                <p class="nfd-kicker">How We Work</p>
+                <p class="nfd-kicker">{{ $sections['process']->content ?? 'How We Work' }}</p>
                 <h2 class="mt-2 text-3xl font-bold">{{ $sections['process']->title ?? 'A delivery model built for uptime and control' }}</h2>
                 <p class="mt-3 text-slate-300">{{ $sections['process']->subtitle ?? 'Three clear phases from intake to optimization.' }}</p>
                 <div class="mt-6 space-y-4">
-                    <div class="rounded-xl border border-white/10 bg-[var(--nfd-soft)] p-4">
-                        <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">01 Diagnose</p>
-                        <p class="mt-2 text-sm text-slate-300">On-site or remote assessment with scope clarity and risk mapping.</p>
-                    </div>
-                    <div class="rounded-xl border border-white/10 bg-[var(--nfd-soft)] p-4">
-                        <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">02 Deliver</p>
-                        <p class="mt-2 text-sm text-slate-300">Planned execution with live progress updates and quality checks.</p>
-                    </div>
-                    <div class="rounded-xl border border-white/10 bg-[var(--nfd-soft)] p-4">
-                        <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">03 Optimize</p>
-                        <p class="mt-2 text-sm text-slate-300">Preventive recommendations and performance reporting.</p>
-                    </div>
+                    @foreach ($processSteps as $step)
+                        <div class="rounded-xl border border-white/10 bg-[var(--nfd-soft)] p-4">
+                            <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">{{ $step['eyebrow'] }}</p>
+                            <p class="mt-2 text-sm text-slate-300">{{ $step['description'] }}</p>
+                        </div>
+                    @endforeach
                 </div>
             </article>
 
             <article class="nfd-card scroll-reveal" data-animate="right">
-                <p class="nfd-kicker">Industries We Support</p>
+                <p class="nfd-kicker">{{ $sections['industries']->subtitle ?? 'Industries We Support' }}</p>
                 <h3 class="mt-2 text-2xl font-bold">{{ $sections['industries']->title ?? 'Operational support across high-demand sectors' }}</h3>
                 <div class="mt-6 grid grid-cols-2 gap-3">
                     @foreach ($industries as $industry)
@@ -376,43 +424,38 @@ Education')))
 
     <section id="request-form" class="py-14">
         <div class="nfd-container grid gap-6 lg:grid-cols-2">
-            <div class="nfd-glow-card">
-                <p class="nfd-kicker">{{ $sections['request_cta']->subtitle ?? 'Need Support?' }}</p>
-                <h2 class="mt-2 text-3xl font-bold">{{ $sections['request_cta']->title ?? 'Request Service Support' }}</h2>
-                <p class="mt-4 text-slate-300">{{ $sections['request_cta']->content ?? 'Share your requirement and our operations team will contact you with the right plan.' }}</p>
-
-                <form method="POST" action="{{ route('service-requests.store') }}" class="mt-6 space-y-3">
-                    @csrf
-                    <select name="service_id" class="w-full rounded-xl border border-white/10 bg-[var(--nfd-soft)] px-3 py-3 text-sm">
-                        <option value="">Select service (optional)</option>
-                        @foreach ($services as $service)
-                            <option value="{{ $service->id }}">{{ $service->title }}</option>
-                        @endforeach
-                    </select>
-                    <input type="text" name="full_name" placeholder="Full name" class="w-full rounded-xl border border-white/10 bg-[var(--nfd-soft)] px-3 py-3 text-sm" required>
-                    <input type="text" name="phone" placeholder="Phone" class="w-full rounded-xl border border-white/10 bg-[var(--nfd-soft)] px-3 py-3 text-sm" required>
-                    <input type="email" name="email" placeholder="Email" class="w-full rounded-xl border border-white/10 bg-[var(--nfd-soft)] px-3 py-3 text-sm" required>
-                    <textarea name="description" rows="5" placeholder="Describe your requirement" class="w-full rounded-xl border border-white/10 bg-[var(--nfd-soft)] px-3 py-3 text-sm" required></textarea>
-                    <button type="submit" class="nfd-btn-primary w-full">Submit Request</button>
-                </form>
+            <div class="nfd-glow-card overflow-hidden p-0">
+                @if (!empty($sections['request_cta']->image))
+                    <img src="{{ asset('storage/'.$sections['request_cta']->image) }}" alt="{{ $sections['request_cta']->title ?? 'Request a visit' }}" class="h-full min-h-[420px] w-full object-cover">
+                @else
+                    <div class="flex h-full min-h-[420px] items-center justify-center rounded-3xl border border-white/10 bg-[var(--nfd-soft)] p-8 text-center text-sm text-slate-300">
+                        Upload an image for the <code class="mx-1">request_cta</code> homepage section from admin to show it here.
+                    </div>
+                @endif
             </div>
 
             <div class="nfd-card relative overflow-hidden">
                 <div class="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full bg-[var(--nfd-accent)]/25 blur-2xl"></div>
-                <p class="nfd-kicker">Contact</p>
-                <h2 class="mt-2 text-3xl font-bold">Talk To Our Team Today</h2>
-                <p class="mt-3 text-slate-300">Fast response, clear next steps, and a team that understands mission-critical facilities.</p>
+                <p class="nfd-kicker">{{ $sections['walkthrough_cta']->subtitle ?? 'Contact' }}</p>
+                <h2 class="mt-2 text-3xl font-bold">{{ $sections['walkthrough_cta']->title ?? 'Schedule A Walkthrough' }}</h2>
+                <p class="mt-3 text-slate-300">{{ $sections['walkthrough_cta']->content ?? 'Fast response, clear next steps, and a team that understands mission-critical facilities.' }}</p>
 
-                <div class="mt-5 grid gap-3 sm:grid-cols-2">
-                    <div class="rounded-xl border border-white/10 bg-white/5 p-4">
-                        <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">Phone</p>
-                        <p class="mt-2 text-sm text-white">{{ $settings['company_phone'] ?? 'Add in settings' }}</p>
+                @if (!empty($settings['company_phone']) || !empty($settings['company_email']))
+                    <div class="mt-5 grid gap-3 sm:grid-cols-2">
+                        @if (!empty($settings['company_phone']))
+                            <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                                <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">Phone</p>
+                                <p class="mt-2 text-sm text-white">{{ $settings['company_phone'] }}</p>
+                            </div>
+                        @endif
+                        @if (!empty($settings['company_email']))
+                            <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+                                <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">Email</p>
+                                <p class="mt-2 text-sm text-white">{{ $settings['company_email'] }}</p>
+                            </div>
+                        @endif
                     </div>
-                    <div class="rounded-xl border border-white/10 bg-white/5 p-4">
-                        <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">Email</p>
-                        <p class="mt-2 text-sm text-white">{{ $settings['company_email'] ?? 'Add in settings' }}</p>
-                    </div>
-                </div>
+                @endif
 
                 <form method="POST" action="{{ route('contact-messages.store') }}" class="mt-6 space-y-3">
                     @csrf

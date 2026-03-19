@@ -102,7 +102,7 @@ class ServiceController extends Controller
             $slugRule = $slugRule->ignore($service->id);
         }
 
-        return $request->validate([
+        $rules = [
             'service_category_id' => ['required', 'exists:service_categories,id'],
             'title' => ['required', 'string', 'max:255'],
             'slug' => ['nullable', 'string', 'max:255', $slugRule],
@@ -111,13 +111,25 @@ class ServiceController extends Controller
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string'],
             'is_published' => ['nullable', 'boolean'],
-            'featured_image' => ['nullable', 'image', 'max:4096'],
-            'og_image' => ['nullable', 'image', 'max:4096'],
-            'extra_images.*' => ['nullable', 'image', 'max:4096'],
             'extra_image_alts.*' => ['nullable', 'string', 'max:255'],
             'remove_image_ids.*' => ['nullable', 'integer'],
             'video_lines' => ['nullable', 'string'],
-        ]);
+        ];
+
+        if ($request->hasFile('featured_image')) {
+            $rules['featured_image'] = ['image', 'max:4096'];
+        }
+
+        if ($request->hasFile('og_image')) {
+            $rules['og_image'] = ['image', 'max:4096'];
+        }
+
+        $extraImages = collect($request->file('extra_images', []))->filter();
+        if ($extraImages->isNotEmpty()) {
+            $rules['extra_images.*'] = ['image', 'max:4096'];
+        }
+
+        return $request->validate($rules);
     }
 
     private function fillService(Service $service, array $data, Request $request): void

@@ -35,7 +35,10 @@ class HomeController extends Controller
 
         if (Schema::hasTable('services') && Schema::hasTable('service_categories')) {
             $services = Service::query()
-                ->with('category:id,name,slug')
+                ->with([
+                    'category:id,name,slug',
+                    'images' => fn ($query) => $query->orderBy('id'),
+                ])
                 ->where('is_published', true)
                 ->latest()
                 ->limit(6)

@@ -5,7 +5,7 @@
 ])
 
 @section('content')
-    <section class="border-b border-white/10 py-16 text-white">
+    <section class="border-b border-white/10 py-16">
         <div class="nfd-container">
             <p class="text-sm uppercase tracking-widest text-orange-300">{{ $service->category?->name }}</p>
             <h1 class="mt-3 text-4xl font-bold">{{ $service->title }}</h1>
@@ -25,7 +25,7 @@
                 </div>
 
                 @if ($service->images->isNotEmpty())
-                    <h2 class="mt-10 text-2xl font-semibold text-white">Gallery</h2>
+                    <h2 class="mt-10 text-2xl font-semibold">Gallery</h2>
                     <div class="mt-4 grid gap-4 md:grid-cols-2">
                         @foreach ($service->images as $image)
                             <img src="{{ asset('storage/'.$image->path) }}" alt="{{ $image->alt ?: $service->title }}" class="w-full rounded-lg object-cover">
@@ -34,7 +34,7 @@
                 @endif
 
                 @if ($service->videos->isNotEmpty())
-                    <h2 class="mt-10 text-2xl font-semibold text-white">Videos</h2>
+                    <h2 class="mt-10 text-2xl font-semibold">Videos</h2>
                     <ul class="mt-3 space-y-2">
                         @foreach ($service->videos as $video)
                             <li>

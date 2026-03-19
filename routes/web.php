@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
+use App\Http\Controllers\Admin\AdminManualController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\HomepageSectionController;
 use App\Http\Controllers\Admin\HomepageServiceItemController;
@@ -42,6 +43,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', AdminDashboardController::class)->name('dashboard');
+    Route::get('/manual', AdminManualController::class)->name('manual');
     Route::resource('service-categories', ServiceCategoryController::class)->except('show');
     Route::resource('services', AdminServiceController::class)->except('show');
     Route::resource('homepage-sections', HomepageSectionController::class)->except('show');

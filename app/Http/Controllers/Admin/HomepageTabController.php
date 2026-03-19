@@ -53,17 +53,22 @@ class HomepageTabController extends Controller
 
     public function update(Request $request, HomepageTab $homepageTab)
     {
-        $data = $request->validate([
+        $rules = [
             'title' => ['required', 'string', 'max:255'],
             'subtitle' => ['nullable', 'string', 'max:255'],
             'content' => ['nullable', 'string'],
-            'image' => ['nullable', 'image', 'max:4096'],
             'button_text' => ['nullable', 'string', 'max:255'],
             'button_link' => ['nullable', 'url', 'max:255'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
             'is_active' => ['nullable', 'boolean'],
             'remove_image' => ['nullable', 'boolean'],
-        ]);
+        ];
+
+        if ($request->hasFile('image')) {
+            $rules['image'] = ['image', 'max:4096'];
+        }
+
+        $data = $request->validate($rules);
 
         if ((bool) ($data['remove_image'] ?? false) && $homepageTab->image) {
             Storage::disk('public')->delete($homepageTab->image);

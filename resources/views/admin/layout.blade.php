@@ -22,6 +22,7 @@
             <nav class="border-t border-slate-700">
                 <div class="mx-auto flex max-w-7xl flex-wrap gap-2 px-4 py-3 text-sm">
                     <a href="{{ route('admin.dashboard') }}" class="rounded px-3 py-1 {{ request()->routeIs('admin.dashboard') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700' }}">Dashboard</a>
+                    <a href="{{ route('admin.manual') }}" class="rounded px-3 py-1 {{ request()->routeIs('admin.manual') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700' }}">Admin Manual</a>
                     <a href="{{ route('admin.service-categories.index') }}" class="rounded px-3 py-1 {{ request()->routeIs('admin.service-categories.*') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700' }}">Categories</a>
                     <a href="{{ route('admin.services.index') }}" class="rounded px-3 py-1 {{ request()->routeIs('admin.services.*') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700' }}">Services</a>
                     <a href="{{ route('admin.homepage-sections.index') }}" class="rounded px-3 py-1 {{ request()->routeIs('admin.homepage-sections.*') ? 'bg-slate-700 text-white' : 'text-slate-200 hover:bg-slate-700' }}">Homepage Sections</a>
