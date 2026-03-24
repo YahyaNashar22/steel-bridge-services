@@ -440,24 +440,7 @@ Education')))
                 <h2 class="mt-2 text-3xl font-bold">{{ $sections['walkthrough_cta']->title ?? 'Schedule A Walkthrough' }}</h2>
                 <p class="mt-3 text-slate-300">{{ $sections['walkthrough_cta']->content ?? 'Fast response, clear next steps, and a team that understands mission-critical facilities.' }}</p>
 
-                @if (!empty($settings['company_phone']) || !empty($settings['company_email']))
-                    <div class="mt-5 grid gap-3 sm:grid-cols-2">
-                        @if (!empty($settings['company_phone']))
-                            <div class="rounded-xl border border-white/10 bg-white/5 p-4">
-                                <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">Phone</p>
-                                <p class="mt-2 text-sm text-white">{{ $settings['company_phone'] }}</p>
-                            </div>
-                        @endif
-                        @if (!empty($settings['company_email']))
-                            <div class="rounded-xl border border-white/10 bg-white/5 p-4">
-                                <p class="text-xs uppercase tracking-[0.2em] text-[var(--nfd-accent-soft)]">Email</p>
-                                <p class="mt-2 text-sm text-white">{{ $settings['company_email'] }}</p>
-                            </div>
-                        @endif
-                    </div>
-                @endif
-
-                <form method="POST" action="{{ route('contact-messages.store') }}" class="mt-6 space-y-3">
+                        <form method="POST" action="{{ route('contact-messages.store') }}" class="mt-6 space-y-3">
                     @csrf
                     <div class="grid gap-3 sm:grid-cols-2">
                         <input type="text" name="full_name" placeholder="Full name" class="w-full rounded-xl border border-white/10 bg-[var(--nfd-soft)] px-3 py-3 text-sm" required>
