@@ -38,6 +38,8 @@ class DatabaseSeeder extends Seeder
             ['key' => 'instagram_url', 'value' => 'https://instagram.com/steelbridge'],
             ['key' => 'linkedin_url', 'value' => 'https://linkedin.com/company/steelbridge'],
             ['key' => 'youtube_url', 'value' => 'https://youtube.com/@steelbridge'],
+            ['key' => 'x_url', 'value' => 'https://x.com/@steelbridge'],
+            ['key' => 'yelp_url', 'value' => 'https://yelp.com/@steelbridge'],
             ['key' => 'terms_page_title', 'value' => 'Terms and Conditions'],
             ['key' => 'terms_page_intro', 'value' => 'Please review the terms governing the use of Steel Bridge Services and this website.'],
             ['key' => 'terms_page_content', 'value' => "By accessing this website, you agree to use it only for lawful purposes.\n\nSteel Bridge Services may update these terms at any time without prior notice.\n\nUsers are responsible for ensuring any information they submit is accurate and does not violate third-party rights."],

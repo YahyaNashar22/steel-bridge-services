@@ -136,6 +136,14 @@
                     <a class="mt-2 block text-sm hover:text-[var(--nfd-accent-soft)]"
                         href="{{ $settings['youtube_url'] }}" target="_blank" rel="noopener noreferrer">YouTube</a>
                 @endif
+                 @if (!empty($settings['x_url']))
+                    <a class="mt-2 block text-sm hover:text-[var(--nfd-accent-soft)]"
+                        href="{{ $settings['x_url'] }}" target="_blank" rel="noopener noreferrer">X</a>
+                @endif
+                 @if (!empty($settings['yelp_url']))
+                    <a class="mt-2 block text-sm hover:text-[var(--nfd-accent-soft)]"
+                        href="{{ $settings['yelp_url'] }}" target="_blank" rel="noopener noreferrer">Yelp</a>
+                @endif
                 <a class="mt-2 block text-sm hover:text-[var(--nfd-accent-soft)]"
                     href="{{ route('terms.show') }}">Terms and Copyrights</a>
             </div>
