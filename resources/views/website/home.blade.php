@@ -238,7 +238,7 @@ Education')))
         </div>
     </section>
 
-    <section class="py-14">
+    {{-- <section class="py-14">
         <div class="nfd-container rounded-3xl border border-white/10 bg-white/5 p-6 md:p-10">
             <h2 class="text-4xl font-extrabold">What we <span class="text-[var(--nfd-accent-soft)]">offer</span></h2>
             <div class="mt-8 grid gap-8 xl:grid-cols-[2fr_1fr]">
@@ -265,10 +265,10 @@ Education')))
                 </article>
             </div>
         </div>
-    </section>
+    </section> --}}
 
-    <section class="py-14">
-        <div class="nfd-container rounded-3xl border border-white/10 bg-white/5 p-6 md:p-10">
+    {{-- <section class="py-14"> --}}
+        {{-- <div class="nfd-container rounded-3xl border border-white/10 bg-white/5 p-6 md:p-10">
             <div class="grid gap-8 xl:grid-cols-[1fr_2fr]">
                 <article class="nfd-card order-2 xl:order-1 scroll-reveal" data-animate="left">
                     <h3 class="text-3xl font-bold">{{ $sections['soft_facility']->title ?? 'Soft Facility Management' }}</h3>
@@ -292,8 +292,8 @@ Education')))
                     @endforelse
                 </div>
             </div>
-        </div>
-    </section>
+        </div> --}}
+    {{-- </section> --}}
 
     <section class="py-12">
         <div class="nfd-container">
