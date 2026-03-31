@@ -95,7 +95,7 @@
     </main>
 
     <footer class="site-footer mt-16 py-10">
-        <div class="nfd-container grid gap-4 md:grid-cols-3">
+        <div class="nfd-container grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             <div>
                 <div class="flex items-center gap-3">
                     <img src="{{ asset('steel bridge logo/svg/steel bridge svg_1.svg') }}" alt="Steel Bridge Logo"
@@ -136,16 +136,21 @@
                     <a class="mt-2 block text-sm hover:text-[var(--nfd-accent-soft)]"
                         href="{{ $settings['youtube_url'] }}" target="_blank" rel="noopener noreferrer">YouTube</a>
                 @endif
-                 @if (!empty($settings['x_url']))
+                @if (!empty($settings['x_url']))
                     <a class="mt-2 block text-sm hover:text-[var(--nfd-accent-soft)]"
                         href="{{ $settings['x_url'] }}" target="_blank" rel="noopener noreferrer">X</a>
                 @endif
-                 @if (!empty($settings['yelp_url']))
+                @if (!empty($settings['yelp_url']))
                     <a class="mt-2 block text-sm hover:text-[var(--nfd-accent-soft)]"
                         href="{{ $settings['yelp_url'] }}" target="_blank" rel="noopener noreferrer">Yelp</a>
                 @endif
+            </div>
+            <div>
+                <h3 class="font-semibold">Legal</h3>
                 <a class="mt-2 block text-sm hover:text-[var(--nfd-accent-soft)]"
-                    href="{{ route('terms.show') }}">Terms and Copyrights</a>
+                    href="{{ route('terms.show') }}">Terms and Conditions</a>
+                <a class="mt-2 block text-sm hover:text-[var(--nfd-accent-soft)]"
+                    href="{{ route('privacy.show') }}">Privacy Policy</a>
             </div>
         </div>
     </footer>

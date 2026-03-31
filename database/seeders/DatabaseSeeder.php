@@ -43,7 +43,13 @@ class DatabaseSeeder extends Seeder
             ['key' => 'terms_page_title', 'value' => 'Terms and Conditions'],
             ['key' => 'terms_page_intro', 'value' => 'Please review the terms governing the use of Steel Bridge Services and this website.'],
             ['key' => 'terms_page_content', 'value' => "By accessing this website, you agree to use it only for lawful purposes.\n\nSteel Bridge Services may update these terms at any time without prior notice.\n\nUsers are responsible for ensuring any information they submit is accurate and does not violate third-party rights."],
-            ['key' => 'copyright_title', 'value' => 'Copyright Notice'],
+            ['key' => 'privacy_page_title', 'value' => 'Privacy Policy'],
+            ['key' => 'privacy_page_intro', 'value' => 'Review how Steel Bridge Services collects, uses, and protects your information.'],
+            ['key' => 'privacy_page_content', 'value' => "Steel Bridge Services may collect contact information submitted through forms on this website to respond to enquiries and service requests.
+
+We do not sell your personal data to third parties. Information may be shared only when necessary to deliver requested services or comply with legal obligations.
+
+If you would like your submitted information updated or removed, please contact us directly."],
             ['key' => 'copyright_content', 'value' => "All website content, branding, copy, graphics, and other materials are owned by Steel Bridge Services unless otherwise stated.\n\nNo part of this website may be reproduced, distributed, or reused without prior written permission."],
         ], ['key'], ['value']);
 

@@ -21,8 +21,9 @@ class TermsPageController extends Controller
             'terms_page_title' => ['nullable', 'string', 'max:255'],
             'terms_page_intro' => ['nullable', 'string'],
             'terms_page_content' => ['nullable', 'string'],
-            'copyright_title' => ['nullable', 'string', 'max:255'],
-            'copyright_content' => ['nullable', 'string'],
+            'privacy_page_title' => ['nullable', 'string', 'max:255'],
+            'privacy_page_intro' => ['nullable', 'string'],
+            'privacy_page_content' => ['nullable', 'string'],
         ]);
 
         foreach ($data as $key => $value) {
@@ -34,6 +35,6 @@ class TermsPageController extends Controller
 
         return redirect()
             ->route('admin.terms.edit')
-            ->with('status', 'Terms page updated.');
+            ->with('status', 'Legal pages updated.');
     }
 }

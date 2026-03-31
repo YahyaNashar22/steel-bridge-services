@@ -269,10 +269,10 @@
         </section>
 
         <section class="rounded-lg bg-white p-6 shadow">
-            <h2 class="text-xl font-semibold">Terms Page</h2>
+            <h2 class="text-xl font-semibold">Legal Pages</h2>
             <div class="mt-4 space-y-2 text-sm text-slate-700">
-                <p><strong>Purpose:</strong> Controls the Terms and Copyrights page.</p>
-                <p><strong>Main fields:</strong> page title, intro text, terms content, copyright title, copyright content.
+                <p><strong>Purpose:</strong> Controls the Terms and Privacy pages.</p>
+                <p><strong>Main fields:</strong> terms title, terms intro, terms content, privacy title, privacy intro, privacy content.
                 </p>
                 <p><strong>Usage:</strong> edit this area when legal or policy content changes. Large text areas support
                     multi-paragraph content.</p>
@@ -286,8 +286,8 @@
                 <p><strong>Common keys:</strong> <code>company_phone</code>, <code>company_email</code>,
                     <code>company_address</code>, <code>facebook_url</code>, <code>instagram_url</code>,
                     <code>linkedin_url</code>, <code>youtube_url</code>,<code>x_url</code>, <code>yelp_url</code>, <code>terms_page_title</code>,
-                    <code>terms_page_intro</code>, <code>terms_page_content</code>, <code>copyright_title</code>,
-                    <code>copyright_content</code>.</p>
+                    <code>terms_page_intro</code>, <code>terms_page_content</code>, <code>privacy_page_title</code>,
+                    <code>privacy_page_intro</code>, <code>privacy_page_content</code>.</p>
                 <p><strong>Header usage:</strong> phone and email appear in the website header contact strip when filled.
                 </p>
                 <p><strong>Footer usage:</strong> phone, email, and address appear in the footer contact section when
